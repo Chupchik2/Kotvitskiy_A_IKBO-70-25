@@ -1,0 +1,62 @@
+# Стартовый скрипт этапа 5: chown, touch, vfs-load (все режимы и ошибки).
+# Изменения живут только в памяти: файл VFS на диске не меняется.
+# Запускать из корня репозитория:
+#   python -m shellemu --vfs vfs/deep.xml --script scripts/emu/modify_vfs.emu
+
+# ===== touch =====
+cd /home/bob
+ls -l                    # пусто
+touch notes.txt          # создать пустой файл
+touch a.txt b.txt        # несколько файлов сразу
+ls -l                    # новые файлы принадлежат текущему пользователю
+touch ../alice/todo.txt  # существующий файл: обновится время
+touch -c ghost.txt       # -c: файл не создаётся
+ls
+touch /etc               # каталог: обновится время
+touch /no/such/dir/f     # ошибка: нет каталога
+touch /etc/hostname/f    # ошибка: родитель - файл
+touch                    # ошибка: нет операнда
+touch -q f               # ошибка: неизвестная опция
+
+# ===== chown =====
+chown alice notes.txt              # сменить владельца
+ls -l
+chown bob:staff a.txt              # владелец и группа
+chown :wheel b.txt                 # только группа
+ls -l
+chown -v root notes.txt            # -v: подробный вывод
+chown -v root notes.txt            # владелец уже root: retained
+chown -R alice:team /home/alice    # рекурсивно
+chown -Rv bob /home/alice/projects # рекурсивно и подробно
+ls -R /home/alice                  # ошибка: у ls нет опции -R
+cd /home/alice
+ls -l
+ls -l projects/emulator
+chown bob /nope                    # ошибка: нет файла
+chown                              # ошибка: нет операндов
+chown bob                          # ошибка: нет файла-операнда
+chown b!d notes.txt                # ошибка: неверный пользователь
+chown bob:g! notes.txt             # ошибка: неверная группа
+chown -z bob notes.txt             # ошибка: неизвестная опция
+
+# ===== vfs-load =====
+cd /var/log
+vfs-load vfs/files.xml             # загрузить другую VFS (путь на диске)
+ls -l                              # каталог сброшен в корень
+tac poem.txt
+vfs-load vfs/minimal.xml
+vfs-tree
+vfs-load vfs/net_takogo.xml        # ошибка: файл не найден
+vfs-load vfs/broken/not_xml.xml    # ошибка: неверный XML
+vfs-load vfs/broken/duplicate.xml  # ошибка: дубликат имени
+vfs-load                           # ошибка: нет аргумента
+vfs-load a b                       # ошибка: слишком много аргументов
+vfs-tree                           # прежняя VFS осталась
+
+# Повторная загрузка отбрасывает изменения, сделанные в памяти
+touch temp.txt
+ls
+vfs-load vfs/minimal.xml
+ls
+
+# Без exit: в окне эмулятор остаётся открытым для дальнейшей работы.

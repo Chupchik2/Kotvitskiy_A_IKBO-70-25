@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Минимальная VFS: пустой корень и один файл. -->
+<vfs>
+  <file name="readme.txt">Минимальная VFS</file>
+</vfs>
