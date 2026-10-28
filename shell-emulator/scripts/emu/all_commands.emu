@@ -1,0 +1,50 @@
+# Сводный скрипт: примеры всех команд эмулятора на VFS vfs/deep.xml.
+#   python -m shellemu --vfs vfs/deep.xml --script scripts/emu/all_commands.emu
+# Подробные сценарии по этапам: basic.emu, vfs_demo.emu, core_commands.emu,
+# modify_vfs.emu.
+
+vfs-tree                           # служебная: дерево VFS
+
+# --- ls и cd
+ls
+ls -la /home/alice
+ls /etc /var
+cd /home/alice/projects/emulator
+ls
+cd ../..
+cd -
+cd
+ls /nonexistent                    # ошибка
+cd /etc/hostname                   # ошибка
+
+# --- tac и date
+tac /var/log/syslog
+tac /etc/hostname /home/alice/todo.txt
+tac /etc                           # ошибка: каталог
+date
+date -u
+date -R
+date +%d.%m.%Y
+date завтра                        # ошибка
+
+# --- touch и chown (только в памяти)
+touch /home/bob/new.txt
+ls -l /home/bob
+chown -v alice:staff /home/bob/new.txt
+chown -R bob /home/bob
+ls -l /home/bob
+touch /no/dir/f                    # ошибка
+chown b!d /etc                     # ошибка
+
+# --- vfs-load
+vfs-load vfs/files.xml
+ls -l
+vfs-load vfs/net_takogo.xml        # ошибка: файл не найден
+vfs-load vfs/broken/not_xml.xml    # ошибка: неверный формат
+ls                                 # прежняя VFS на месте
+
+# --- ошибки ввода и выход
+nosuchcmd a b                      # команда не найдена
+ls "незакрытая кавычка             # синтаксическая ошибка
+
+# Без exit: в окне эмулятор остаётся открытым для дальнейшей работы.

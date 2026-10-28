@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Вложенная VFS: пять уровней папок и файлов. -->
+<vfs>
+  <dir name="etc">
+    <file name="hostname">emu-host</file>
+    <file name="passwd">root:x:0:0:root:/root:/bin/sh
+alice:x:1000:1000::/home/alice:/bin/sh
+</file>
+  </dir>
+  <dir name="home" owner="root">
+    <dir name="alice" owner="alice" group="alice">
+      <file name="todo.txt" owner="alice">купить хлеб
+позвонить маме
+сдать практическую работу
+</file>
+      <dir name="projects" owner="alice">
+        <dir name="emulator" owner="alice">
+          <file name="main.py" owner="alice">print("hello")
+</file>
+          <dir name="tests" owner="alice">
+            <file name="test_main.py" owner="alice">assert True
+</file>
+          </dir>
+        </dir>
+      </dir>
+    </dir>
+    <dir name="bob" owner="bob" group="bob"/>
+  </dir>
+  <dir name="var">
+    <dir name="log">
+      <file name="syslog">первая запись
+вторая запись
+третья запись
+</file>
+    </dir>
+  </dir>
+</vfs>

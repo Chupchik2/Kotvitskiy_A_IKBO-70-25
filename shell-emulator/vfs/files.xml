@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Несколько файлов в корне, в том числе двоичный (base64). -->
+<vfs owner="root" group="root">
+  <file name="hello.txt" owner="alice" group="staff"
+        mtime="2026-09-01T10:30:00">Hello, world!</file>
+  <file name="poem.txt" owner="alice">строка 1
+строка 2
+строка 3
+</file>
+  <file name="empty.txt"/>
+  <file name=".hidden" owner="bob">скрытый файл</file>
+  <file name="data.bin" encoding="base64"
+        mtime="2026-09-02T08:00:00">AAECAwQFBgcICQoLDA0ODw==</file>
+  <dir name="docs" owner="alice"/>
+</vfs>
