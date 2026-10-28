@@ -34,11 +34,9 @@
 ## Запуск
 
 ```
-make run CONFIG=config.example.json       # граф + Mermaid + SVG
-make test                                 # тесты (unittest)
+$env:PYTHONPATH="src"
+python -m depgraph --config config.example.json
 ```
-
-Без `make`: `PYTHONPATH=src python3 -m depgraph --config FILE [опции]`.
 
 | Опция           | Действие                                              |
 |-----------------|-------------------------------------------------------|
