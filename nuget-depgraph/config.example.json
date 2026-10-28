@@ -1,0 +1,8 @@
+{
+  "package_name": "Newtonsoft.Json",
+  "repository": "https://api.nuget.org/v3-flatcontainer/",
+  "test_mode": false,
+  "version": "13.0.3",
+  "output_file": "graph.svg",
+  "max_depth": 3
+}
